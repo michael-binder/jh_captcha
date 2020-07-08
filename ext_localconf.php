@@ -1,4 +1,5 @@
 <?php
+defined('TYPO3_MODE') or die();
 
 ############
 # EXT:form #
@@ -14,4 +15,9 @@ $iconRegistry->registerIcon(
     't3-form-icon-jhcaptcha-recaptcha',
     \TYPO3\CMS\Core\Imaging\IconProvider\FontawesomeIconProvider::class,
     ['name' => 'google']
+);
+
+# EXT:powermail
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:jh_captcha/Configuration/PageTS/Powermail.tsconfig">'
 );

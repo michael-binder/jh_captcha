@@ -1,4 +1,3 @@
-
 plugin.tx_jhcaptcha.settings {
     reCaptcha {
         # cat=plugin.tx_jhcaptcha/recaptcha; type=int; label=reCAPTCHA version (2 or 3)
