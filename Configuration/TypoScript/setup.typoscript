@@ -21,14 +21,6 @@ plugin {
     }
   }
 
-  # EXT:formhandler
-  Tx_Formhandler.settings {
-    markers {
-      jh_captcha_recaptcha = FLUIDTEMPLATE
-      jh_captcha_recaptcha.file = EXT:jh_captcha/Resources/Private/Partials/Formhandler/ReCaptcha.html
-    }
-  }
-
   # EXT:powermail
   tx_powermail {
     view.partialRootPaths.JhCaptcha = EXT:jh_captcha/Resources/Private/Powermail/Partials

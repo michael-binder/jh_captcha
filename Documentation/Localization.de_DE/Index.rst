@@ -24,7 +24,7 @@ Google reCAPTCHA (v2/v3)
 		de
 
 	:Beschreibung:
-		Nutze Google reCAPTCHA (v2/v3) in deinen TYPO3-Erweiterungen, EXT:form, EXT:powermail und EXT:formhandler als Spam-Schutz.
+		Nutze Google reCAPTCHA (v2/v3) in deinen TYPO3-Erweiterungen, EXT:form und EXT:powermailals Spam-Schutz.
 
 	:Copyright:
 		2015-2018

@@ -17,7 +17,7 @@ Einführung
 Was macht diese Erweiterung?
 ----------------------------
 
-Nutze Google reCAPTCHA (v2/v3) in deinen TYPO3-Erweiterungen, EXT:form, EXT:powermail und EXT:formhandler als Spam-Schutz.
+Nutze Google reCAPTCHA (v2/v3) in deinen TYPO3-Erweiterungen, EXT:form und EXT:powermailals Spam-Schutz.
 
 YouTube - Introduction to reCAPTCHA v2:
 https://www.youtube.com/watch?v=jwslDn3ImM0

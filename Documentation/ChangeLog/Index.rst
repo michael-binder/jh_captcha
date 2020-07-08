@@ -11,6 +11,12 @@
 ChangeLog
 =========
 
+4.0.0
+^^^^^
+
+* [FEATURE] Support TYPO3 10
+* [!!!][TASK] Drop EXT:formhandler Support
+
 3.0.x
 -----
 

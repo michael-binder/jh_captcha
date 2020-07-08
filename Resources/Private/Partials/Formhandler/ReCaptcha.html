@@ -1,6 +1,0 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:jhcaptcha="http://typo3.org/ns/Haffner/JhCaptcha/ViewHelpers"
-      data-namespace-typo3-fluid="true">
-
-<jhcaptcha:reCaptcha uid="{data.uid}" />
-<input type="hidden" id="{f:if(condition: '{data.uid}', then: 'captchaResponse-{data.uid}', else: 'captchaResponse')}" name="###formValuesPrefix###[jh_captcha_recaptcha]" value="" />
