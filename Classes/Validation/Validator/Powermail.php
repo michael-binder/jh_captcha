@@ -12,7 +12,7 @@ class Powermail extends \In2code\Powermail\Domain\Validator\SpamShield\AbstractM
      */
     public function spamCheck(): bool
     {
-        # Skip captcha check on confirmation page
+        // Skip captcha check on confirmation page
         if (
             property_exists($this, 'flexForm')
                 && GeneralUtility::_GPmerged('tx_powermail_pi1')['action'] === 'create'
@@ -27,7 +27,7 @@ class Powermail extends \In2code\Powermail\Domain\Validator\SpamShield\AbstractM
                 if ($field->getType() === 'JhCaptchaRecaptcha') {
                     /** @var ReCaptchaValidator $reCaptchaValidator */
                     $reCaptchaValidator = GeneralUtility::makeInstance(ReCaptchaValidator::class);
-                    $result = $reCaptchaValidator->validate(GeneralUtility::_GP("g-recaptcha-response"));
+                    $result = $reCaptchaValidator->validate(GeneralUtility::_GP('g-recaptcha-response'));
                     if (!empty($result->getErrors())) {
                         return true;
                     }

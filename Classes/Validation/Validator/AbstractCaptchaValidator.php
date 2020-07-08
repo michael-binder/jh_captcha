@@ -24,7 +24,7 @@ abstract class AbstractCaptchaValidator extends AbstractValidator
      */
     protected $settings;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
         /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
@@ -32,7 +32,9 @@ abstract class AbstractCaptchaValidator extends AbstractValidator
         /** @var ConfigurationManagerInterface $configurationManager */
         $configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
         $this->settings = $configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'JhCaptcha');
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+            'JhCaptcha'
+        );
     }
 
     /**

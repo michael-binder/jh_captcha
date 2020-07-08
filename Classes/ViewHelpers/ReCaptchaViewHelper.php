@@ -37,7 +37,9 @@ class ReCaptchaViewHelper extends AbstractViewHelper
     public function render()
     {
         $settings = $this->configurationManager->getConfiguration(
-            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'JhCaptcha');
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+            'JhCaptcha'
+        );
 
         $captchaResponseId = 'captchaResponse';
         if ($this->arguments['uid']) {
@@ -48,17 +50,14 @@ class ReCaptchaViewHelper extends AbstractViewHelper
             // render v2
             if ($settings['reCaptcha']['v2']['siteKey']) {
                 return $this->renderV2($captchaResponseId, $settings);
-            } else {
-                return LocalizationUtility::translate('setApiKey', 'jh_captcha');
             }
-        } else {
-            // render v3
-            if ($settings['reCaptcha']['v3']['siteKey']) {
-                return $this->renderV3($captchaResponseId, $settings);
-            } else {
-                return LocalizationUtility::translate('setApiKey', 'jh_captcha');
-            }
+            return LocalizationUtility::translate('setApiKey', 'jh_captcha');
         }
+        // render v3
+        if ($settings['reCaptcha']['v3']['siteKey']) {
+            return $this->renderV3($captchaResponseId, $settings);
+        }
+        return LocalizationUtility::translate('setApiKey', 'jh_captcha');
     }
 
     private function renderV2($captchaResponseId, $settings)
@@ -69,10 +68,10 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         $size = htmlspecialchars($settings['reCaptcha']['v2']['size']);
 
         $reCaptcha = '<div id="recaptcha' . $this->arguments['uid'] . '"></div>';
-        $renderReCaptcha = '<script type="text/javascript">var apiCallback' . str_replace("-", "", $this->arguments['uid']) . ' = function() { reCaptchaWidget' . str_replace("-", "", $this->arguments['uid']) . ' = grecaptcha.render("recaptcha' . $this->arguments['uid'] . '", { "sitekey" : "' . $siteKey .'", "callback" : "captchaCallback' . str_replace("-", "", $this->arguments['uid']) .'", "theme" : "' . $theme . '", "size" : "' . $size . '" }); }</script>';
-        $reCaptchaApi = '<script src="https://www.google.com/recaptcha/api.js?onload=apiCallback' . str_replace("-", "", $this->arguments['uid']) . '&hl=' . $lang . '&render=explicit" async defer></script>';
+        $renderReCaptcha = '<script type="text/javascript">var apiCallback' . str_replace('-', '', $this->arguments['uid']) . ' = function() { reCaptchaWidget' . str_replace('-', '', $this->arguments['uid']) . ' = grecaptcha.render("recaptcha' . $this->arguments['uid'] . '", { "sitekey" : "' . $siteKey . '", "callback" : "captchaCallback' . str_replace('-', '', $this->arguments['uid']) . '", "theme" : "' . $theme . '", "size" : "' . $size . '" }); }</script>';
+        $reCaptchaApi = '<script src="https://www.google.com/recaptcha/api.js?onload=apiCallback' . str_replace('-', '', $this->arguments['uid']) . '&hl=' . $lang . '&render=explicit" async defer></script>';
         if (!$this->isPowermail()) {
-            $callBack = '<script type="text/javascript">var captchaCallback' . str_replace("-", "", $this->arguments['uid']) . ' = function() { document.getElementById("' . $captchaResponseId . '").value = grecaptcha.getResponse(reCaptchaWidget' . str_replace("-", "", $this->arguments['uid']) . ') }</script>';
+            $callBack = '<script type="text/javascript">var captchaCallback' . str_replace('-', '', $this->arguments['uid']) . ' = function() { document.getElementById("' . $captchaResponseId . '").value = grecaptcha.getResponse(reCaptchaWidget' . str_replace('-', '', $this->arguments['uid']) . ') }</script>';
         }
 
         return $reCaptcha . $callBack . $renderReCaptcha . $reCaptchaApi;
@@ -81,7 +80,7 @@ class ReCaptchaViewHelper extends AbstractViewHelper
     private function renderV3($captchaResponseId, $settings)
     {
         $callBackFunctionName = 'onLoad' .
-            $this->arguments['type'] . str_replace("-", "", $this->arguments['uid']);
+            $this->arguments['type'] . str_replace('-', '', $this->arguments['uid']);
 
         $captchaResponseField = '';
         if ($this->isPowermail()) {
@@ -89,20 +88,20 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         }
 
         $callBack =
-            '<script type="text/javascript">'.
-                'var ' . $callBackFunctionName . ' = function() {'.
-                    'grecaptcha.execute('.
-                        '"' . htmlspecialchars($settings['reCaptcha']['v3']['siteKey']) . '",'.
-                        '{action: "' . htmlspecialchars($settings['reCaptcha']['v3']['action']) . '"})'.
-                        '.then(function(token) {'.
-                            'document.getElementById("' . $captchaResponseId . '").value = token;'.
-                        '}'.
-                    ');'.
-                '};'.
+            '<script type="text/javascript">' .
+                'var ' . $callBackFunctionName . ' = function() {' .
+                    'grecaptcha.execute(' .
+                        '"' . htmlspecialchars($settings['reCaptcha']['v3']['siteKey']) . '",' .
+                        '{action: "' . htmlspecialchars($settings['reCaptcha']['v3']['action']) . '"})' .
+                        '.then(function(token) {' .
+                            'document.getElementById("' . $captchaResponseId . '").value = token;' .
+                        '}' .
+                    ');' .
+                '};' .
             '</script>';
         $api =
-            '<script src="https://www.google.com/recaptcha/api.js?'.
-                'render=' . htmlspecialchars($settings['reCaptcha']['v3']['siteKey']) . '&'.
+            '<script src="https://www.google.com/recaptcha/api.js?' .
+                'render=' . htmlspecialchars($settings['reCaptcha']['v3']['siteKey']) . '&' .
                 'onload=' . $callBackFunctionName . '"></script>';
 
         return $captchaResponseField . $callBack . $api;
@@ -113,6 +112,6 @@ class ReCaptchaViewHelper extends AbstractViewHelper
      */
     private function isPowermail()
     {
-        return ($this->arguments['type'] == "powermail" ? true : false);
+        return $this->arguments['type'] == 'powermail' ? true : false;
     }
 }
