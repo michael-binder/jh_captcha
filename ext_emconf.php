@@ -15,6 +15,7 @@ $EM_CONF['jh_captcha'] = [
     'constraints' => [
         'depends' => [
             'typo3' => '8.7.0-10.4.99',
+            'php' => '7.1.0-7.4.99',
         ],
     ],
 ];

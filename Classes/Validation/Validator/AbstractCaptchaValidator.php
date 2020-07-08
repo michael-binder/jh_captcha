@@ -4,6 +4,7 @@ namespace Haffner\JhCaptcha\Validation\Validator;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 abstract class AbstractCaptchaValidator extends AbstractValidator
@@ -27,8 +28,8 @@ abstract class AbstractCaptchaValidator extends AbstractValidator
     public function __construct(array $options = [])
     {
         parent::__construct($options);
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager */
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        /** @var ObjectManager $objectManager */
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var ConfigurationManagerInterface $configurationManager */
         $configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
         $this->settings = $configurationManager->getConfiguration(
@@ -45,8 +46,9 @@ abstract class AbstractCaptchaValidator extends AbstractValidator
      * @param array  $arguments    Arguments to be replaced in message
      * @param string $title        title of the error
      */
-    protected function addError($translateKey, $code, array $arguments = [], $title = '')
+    protected function addError($translateKey, $code, array $arguments = [], $title = ''): void
     {
-        parent::addError($this->translateErrorMessage($translateKey, 'jh_captcha'), $code);
+        $message = $this->translateErrorMessage($translateKey, 'jh_captcha') !== null ? $this->translateErrorMessage($translateKey, 'jh_captcha') : 'The Captcha is invalid.';
+        parent::addError($message, $code);
     }
 }

@@ -3,12 +3,16 @@
 namespace Haffner\JhCaptcha\Validation\Validator;
 
 use In2code\Powermail\Domain\Model\Field;
+use In2code\Powermail\Domain\Validator\SpamShield\AbstractMethod;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Powermail extends \In2code\Powermail\Domain\Validator\SpamShield\AbstractMethod
+class Powermail extends AbstractMethod
 {
     /**
      * @return bool true if spam recognized
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @throws \TYPO3\CMS\Extbase\Object\Exception
      */
     public function spamCheck(): bool
     {
@@ -21,7 +25,9 @@ class Powermail extends \In2code\Powermail\Domain\Validator\SpamShield\AbstractM
             return false;
         }
 
-        foreach ($this->mail->getForm()->getPages() as $page) {
+        $pages = $this->mail->getForm()->getPages();
+
+        foreach ($pages as $page) {
             /** @var Field $field */
             foreach ($page->getFields() as $field) {
                 if ($field->getType() === 'JhCaptchaRecaptcha') {

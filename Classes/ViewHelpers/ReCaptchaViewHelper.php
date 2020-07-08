@@ -23,7 +23,7 @@ class ReCaptchaViewHelper extends AbstractViewHelper
     /**
      * @param ConfigurationManagerInterface $configurationManager
      */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
     {
         $this->configurationManager = $configurationManager;
     }
@@ -34,7 +34,7 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         $this->registerArgument('type', 'String', 'form type', false);
     }
 
-    public function render()
+    public function render(): ?string
     {
         $settings = $this->configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
@@ -60,7 +60,12 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         return LocalizationUtility::translate('setApiKey', 'jh_captcha');
     }
 
-    private function renderV2($captchaResponseId, $settings)
+    /**
+     * @param string $captchaResponseId
+     * @param array $settings
+     * @return string
+     */
+    private function renderV2($captchaResponseId, $settings): string
     {
         $siteKey = htmlspecialchars($settings['reCaptcha']['v2']['siteKey']);
         $theme = htmlspecialchars($settings['reCaptcha']['v2']['theme']);
@@ -70,6 +75,7 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         $reCaptcha = '<div id="recaptcha' . $this->arguments['uid'] . '"></div>';
         $renderReCaptcha = '<script type="text/javascript">var apiCallback' . str_replace('-', '', $this->arguments['uid']) . ' = function() { reCaptchaWidget' . str_replace('-', '', $this->arguments['uid']) . ' = grecaptcha.render("recaptcha' . $this->arguments['uid'] . '", { "sitekey" : "' . $siteKey . '", "callback" : "captchaCallback' . str_replace('-', '', $this->arguments['uid']) . '", "theme" : "' . $theme . '", "size" : "' . $size . '" }); }</script>';
         $reCaptchaApi = '<script src="https://www.google.com/recaptcha/api.js?onload=apiCallback' . str_replace('-', '', $this->arguments['uid']) . '&hl=' . $lang . '&render=explicit" async defer></script>';
+        $callBack = '';
         if (!$this->isPowermail()) {
             $callBack = '<script type="text/javascript">var captchaCallback' . str_replace('-', '', $this->arguments['uid']) . ' = function() { document.getElementById("' . $captchaResponseId . '").value = grecaptcha.getResponse(reCaptchaWidget' . str_replace('-', '', $this->arguments['uid']) . ') }</script>';
         }
@@ -77,7 +83,12 @@ class ReCaptchaViewHelper extends AbstractViewHelper
         return $reCaptcha . $callBack . $renderReCaptcha . $reCaptchaApi;
     }
 
-    private function renderV3($captchaResponseId, $settings)
+    /**
+     * @param string $captchaResponseId
+     * @param array $settings
+     * @return string
+     */
+    private function renderV3($captchaResponseId, $settings): string
     {
         $callBackFunctionName = 'onLoad' .
             $this->arguments['type'] . str_replace('-', '', $this->arguments['uid']);

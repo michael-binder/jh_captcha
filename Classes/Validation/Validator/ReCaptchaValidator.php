@@ -12,7 +12,7 @@ class ReCaptchaValidator extends AbstractCaptchaValidator
      *
      * @param mixed $value
      */
-    protected function isValid($value)
+    protected function isValid($value): void
     {
         if ($this->settings['reCaptcha']['version'] == 2) {
             $secret = htmlspecialchars($this->settings['reCaptcha']['v2']['secretKey']);
